@@ -1,0 +1,13 @@
+<launch>
+
+  <include file="$(find navvis_description)/launch/display.launch" />
+  
+  <arg name="use_xacro" default="true" />
+  <arg name="filename" default="L3Xacro.xacro" />
+  <arg name="file" default="$(find lab3robot)/urdf/$(arg filename)" />
+  <param if="$(arg use_xacro)" name="robot_description" command="$(find xacro)/xacro $(arg file)" />
+
+  <param name="use_sim_time" type="bool" value="true" />
+  <node pkg="rosbag" type="play" name="rosbag" args="--clock $(find lab3robot)/GlennanFiles/glennan_5_basic_short.bag /tf_trajectory:=/tf" />
+  <node pkg="map_server" type="map_server" name="map_server_node" args="$(find maps_glennan)/maps/glennan5_map.yaml" />
+</launch>
